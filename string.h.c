@@ -12,8 +12,8 @@ typedef struct wstring
 
 str_t* string_create(uint8_t length)
 {
-	str_t* string = malloc(sizeof(str_t));
-	string->data = malloc(length);             // (*string).data = ...
+	str_t* string = (str_t*)malloc(sizeof(str_t));
+	string->data = (str_t*)malloc(length);             // (*string).data = ...
 	string->length = length;
 	string->how_much = 0;
 
@@ -31,6 +31,19 @@ uint8_t string_length(str_t* string)
 	return string->length;
 }
 
+size_t strln(const char* string)
+{
+	size_t length = 0;
+
+	while (*string != '\0')
+	{
+		length++;
+		string++;
+	}
+
+	return length;
+}
+
 void print_string(str_t* string, FILE* file)
 {
 	fwrite(string->data, sizeof(uint8_t), string->length, file);
@@ -38,7 +51,7 @@ void print_string(str_t* string, FILE* file)
 
 str_t* string_dup(const char* str)
 {
-	str_t* string = string_create(strlen(str));
+	str_t* string = string_create((uint8_t)strlen(str));
 	memcpy(string->data, str, string->length);
 	string->how_much = string->length;
 
