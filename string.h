@@ -68,3 +68,15 @@ str_t* concat(str_t* left, str_t* right)
 
 	return string;
 }
+
+str_t* append(str_t* left, str_t* right)
+{
+	str_t* space = string_dup(" ");
+	str_t* string = string_create(left->length + right->length + space->length);
+	memcpy(string->data, left->data, left->length);
+	memcpy(string->data + left->length, space->data, space->length);
+	memcpy(string->data + left->length + space->length, right->data, right->length);
+	string->how_much = string->length;
+
+	return string;
+}
