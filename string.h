@@ -23,6 +23,7 @@ size_t strlen(const uint8_t* string)
 str_t* string_create(uint8_t length)
 {
 	str_t* string = (str_t*) malloc(sizeof(str_t));         // (*string).data = ...
+	string->data = (uint8_t*) malloc(length);
 	string->length = length;
 	string->how_much = 0;
 
