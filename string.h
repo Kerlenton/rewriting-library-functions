@@ -1,78 +1,112 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
-typedef struct
+typedef struct String
 {
-	uint8_t* data;
-	uint8_t length;
-	uint8_t how_much;
-}str_t;
+    uint8_t *data;
+    uint8_t length;
+    uint8_t how_much;
+} str_t;
 
-size_t strlen(const uint8_t* string)
+str_t *string_create(uint8_t length)
 {
-	size_t count = 0;
+    str_t *string = (str_t*)malloc(sizeof(str_t));
+    string->data = (uint8_t*)malloc(sizeof(length));
+    string->length = length;
+    string->how_much = 0;
 
-	while (*string != '\0')
-	{
-		count++;
-		string++;
-	}
+    return string;
 }
 
-str_t* string_create(uint8_t length)
+void string_free(str_t *string)
 {
-	str_t* string = (str_t*) malloc(sizeof(str_t));         // (*string).data = ...
-	string->data = (uint8_t*) malloc(length);
-	string->length = length;
-	string->how_much = 0;
-
-	return string;
+    free(string->data);
+    free(string);
 }
 
-void string_free(str_t* string)
+uint8_t string_len(str_t *string)
 {
-	free(string->data);
-	free(string);
+    return string->length;
 }
 
-uint8_t string_length(str_t* string)
+void print_string(str_t *string, FILE *file)
 {
-	return string->length;
+    fwrite(string->data, sizeof(uint8_t), (size_t)string->length, file);
 }
 
-void print_string(str_t* string, FILE* file)
+size_t str_len(const char *string)
 {
-	fwrite(string->data, sizeof(uint8_t), string->length, file);
+    size_t count = 0;
+    while (*string++ != '\0')
+    {
+        ++count;
+    }
+
+    return count;
 }
 
-str_t* strdup(const uint8_t* str)
+str_t *string_dup(const char *str)
 {
-	str_t* string = string_create((uint8_t) strlen(str));
-	memcpy(string->data, str, string->length);
-	string->how_much = string->length;
+    str_t *string = string_create((uint8_t)str_len(str));
+    memcpy(string->data, str, string->length);
+    string->how_much = string->length;
 
-	return string;
+    return string;
 }
 
-str_t* concat(str_t* left, str_t* right)
+str_t *string_concat(str_t *left, str_t *right)
 {
-	str_t* string = string_create(left->length + right->length);
-	memcpy(string->data, left->data, left->length);
-	memcpy(string->data + left->length, right->data, right->length);
-	string->how_much = string->length;
+    str_t *string = string_create(left->length + right->length);
+    memcpy(string->data, left->data, left->length);
+    memcpy(string->data + left->length, right->data, right->length);
+    string->how_much = string->length;
 
-	return string;
+    return string;
 }
 
-str_t* append(str_t* left, str_t* right)
+void reverse(str_t *string)
 {
-	str_t* space = strdup(" ");
-	str_t* string = string_create(left->length + right->length + space->length);
-	memcpy(string->data, left->data, left->length);
-	memcpy(string->data + left->length, space->data, space->length);
-	memcpy(string->data + left->length + space->length, right->data, right->length);
-	string->how_much = string->length;
+    uint8_t c;
+    size_t i, j;
+    
+    for (i = 0, j = (size_t)string->length - 1; i < j; i++, j--)
+    {
+        c = *(string->data + i);
+        *(string->data + i) = *(string->data + j);
+        *(string->data + j) = c; 
+    }
+}
 
-	return string;
-}}
+int string_fread(char *name, char *dest)
+{
+    int i = 0;
+    FILE *file;
+    
+    if ((file = fopen(name, "r")) == NULL)
+        return 1;
+    
+    while ((feof(file) == 0) && (ferror(file) == 0))
+    {
+        dest[i] = getc(file);
+        i++;
+    }
+    
+    if (i != str_len(dest))
+        return 1
+        
+        
+    dest[i] = '\0';
+    
+    return 0;
+}
+
+int main(void)
+{
+    str_t *hello = string_dup("hello");
+    squeeze(hello, 'l');
+    print_string(hello, stdout);
+    
+    return 0;
+}
