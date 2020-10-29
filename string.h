@@ -3,6 +3,13 @@
 #include <stdint.h>
 #include <string.h>
 
+static void template_print(char *string, size_t length, FILE *file);
+static void template_concat(char *string, char *left, char *right, size_t length_l, size_t length_r);
+static void template_append(char *string, char *left, char *right, char *concat_space, size_t length_l, size_t length_r);
+
+
+
+
 /////////////////////////////
 
 typedef struct String
