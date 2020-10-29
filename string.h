@@ -49,11 +49,19 @@ size_t str_len(const char *string)
 
 str_t *string_dup(const char *str)
 {
-    str_t *string = string_create((uint8_t)str_len(str));
+    str_t *string = string_create((uint8_t)strlen(str));
     memcpy(string->data, str, string->length);
     string->how_much = string->length;
 
     return string;
+}
+
+char *string_pud(str_t *string)
+{
+    char *str = (char*)malloc((size_t)string->length);
+    memcpy(str, string->data, string->length);
+    
+    return str;
 }
 
 str_t *string_concat(str_t *left, str_t *right)
@@ -79,33 +87,10 @@ void reverse(str_t *string)
     }
 }
 
-int string_fread(char *name, char *dest)
-{
-    int i = 0;
-    FILE *file;
-    
-    if ((file = fopen(name, "r")) == NULL)
-        return 1;
-    
-    while ((feof(file) == 0) && (ferror(file) == 0))
-    {
-        dest[i] = getc(file);
-        i++;
-    }
-    
-    if (i != str_len(dest))
-        return 1
-        
-        
-    dest[i] = '\0';
-    
-    return 0;
-}
-
 int main(void)
 {
     str_t *hello = string_dup("hello");
-    squeeze(hello, 'l');
+    char *bye = string_pud(hello);
     print_string(hello, stdout);
     
     return 0;
