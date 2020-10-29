@@ -143,7 +143,3 @@ extern void string_copy(str_t *string1, str_t *string2)
     string1 = string_create(string2->length);
     memcpy(string1->data, string2->data, string2->length);
 }
-
-
-
-
