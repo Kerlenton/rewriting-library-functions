@@ -31,9 +31,10 @@ extern char *chars_concat(char *left, char *right);
 extern str_t *string_append(str_t *left, str_t *right);
 extern char *chars_append(char *left, char *right);
 
+extern void string_reverse(str_t *string);
+extern void chars_reverse(char *chars);
 
-extern void reverse(str_t *string);
-extern int string_compare(str_t *string1, str_t *string2);
-extern void string_copy(str_t *string1, str_t *string2);
+extern size_t string_compare(str_t *string1, str_t *string2);
+extern size_t chars_compare(char *chars1, char *chars2);
 
 #endif // CSTRING_H
