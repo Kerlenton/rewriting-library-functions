@@ -2,8 +2,8 @@
 
 int main(void)
 {
-    str_t *hello = string_dup("hello");
-    str_t *hello1 = string_dup("ape");
+    //str_t *hello = string_dup("hello");
+    //str_t *hello1 = string_dup("ape");
 
    // string_copy(hello, hello1);
 
@@ -11,7 +11,12 @@ int main(void)
    // str_t *app = string_concat(hello, hello);
    // string_print(app, stdout);
 
-   printf("%s", chars_append("hello", "world"));
+   //string_reverse(hello);
+   //string_print(hello, stdout);
+   //printf("%s", chars_append("hello", "world"));
 
-    return 0;
+   char *s = "hello";
+   char *s1 = "bye";
+
+   return 0;
 }
