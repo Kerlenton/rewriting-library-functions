@@ -5,6 +5,7 @@ static void template_concat(char *string, char *left, char *right, size_t length
 static void template_append(char *string, char *left, char *right, char *concat_space, size_t length_l, size_t length_r);
 static void template_reverse(char *string, size_t length);
 static size_t template_compare(char *string1, char *string2, size_t length1, size_t length2);
+static size_t template_copy(char *string1, char *string2, size_t length1, size_t length2);
 
 extern str_t *string_create(size_t length)
 {
@@ -178,4 +179,32 @@ static size_t template_compare(char *string1, char *string2, size_t length1, siz
     }
 
     return *string1 - *string2;
+}
+
+extern void string_copy(str_t *string1, str_t *string2)
+{
+    string1->how_much = template_copy(string1->data, string2->data, string1->length, string2->length);
+    string1->length = string2->length;
+}
+
+extern void chars_copy(char *chars1, char *chars2)
+{
+    template_copy(chars1, chars2, chars_length(chars1), chars_length(chars2));
+}
+
+static size_t template_copy(char *string1, char *string2, size_t length1, size_t length2)
+{
+    size_t temp = length1;
+
+    if (length2 > temp)
+    {
+        while (length2 > temp)
+            temp *= 2;
+
+        string1 = (char*)realloc(string1, temp);
+    }
+
+    memcpy(string1, string2, length2 + 1);
+
+    return temp;
 }
