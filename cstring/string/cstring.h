@@ -41,4 +41,7 @@ extern void chars_reverse(char *chars);
 extern size_t string_compare(str_t *string1, str_t *string2);
 extern size_t chars_compare(char *chars1, char *chars2);
 
+extern void string_copy(str_t *string1, str_t *string2);
+extern void chars_copy(char *chars1, char *chars2);
+
 #endif // CSTRING_H
